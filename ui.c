@@ -5,7 +5,6 @@
 
 #include "data.h"
 
-
 void
 interface(void)
 {

@@ -1,5 +1,5 @@
-#ifndef STATUS_H
-#define STATUS_H
+#ifndef DATA_H
+#define DATA_H
 
 #include <pulse/pulseaudio.h>
 

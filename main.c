@@ -9,6 +9,9 @@
 #define BUFFER_SIZE 1024
 #define MAX_SINKS 10
 
+#include "ui.c"
+#include "data.h"
+
 static pa_context *context;
 static pa_mainloop *mainloop;
 static pa_mainloop_api *mainloop_api;
@@ -16,12 +19,7 @@ static pa_operation *operation;
 static int ready = 0;
 static int sink_count = 0;
 
-typedef struct pa_devicelist {
-    char name[512];
-    uint32_t index;
-    char description[256];
-    pa_cvolume volume;
-} pa_devicelist_t;
+pa_devicelist_t devicelist[10];
 
 static void
 context_state_callback_status(pa_context *context, void *userdata)
@@ -75,14 +73,12 @@ sinklist_callback(pa_context *context,
     sink_count++;
 }
 
-static int
+static void
 get_sinks()
 {
-    pa_devicelist_t devicelist[MAX_SINKS];
-
     if (context == NULL || ready != 1) {
         printf("Context not ready :(\n");
-        return 1;
+        return;
     }
 
     operation = pa_context_get_sink_info_list(context, 
@@ -90,7 +86,7 @@ get_sinks()
 					      devicelist);
     if (operation == NULL) {
         printf("Operation null :(\n");
-        return 1;
+        return;
     }
 
     enum pa_operation_state state = pa_operation_get_state(operation);
@@ -99,7 +95,7 @@ get_sinks()
         if (pa_mainloop_iterate(mainloop, 1, NULL) < 0) {
             printf("Mainloop iterate error :(\n");
             pa_operation_unref(operation);
-            return 1;
+            return;
         }
         state = pa_operation_get_state(operation);
     }
@@ -107,7 +103,7 @@ get_sinks()
     if (state == PA_OPERATION_CANCELLED) {
         printf("Operation cancelled :(\n");
         pa_operation_unref(operation);
-        return 1;
+        return;
     }
 
     pa_operation_unref(operation);
@@ -120,8 +116,7 @@ get_sinks()
 	    printf("Sinks Volume[0]: %d\n", devicelist[i].volume.values[0]);
 	    printf("Sinks Volume[1]: %d\n", devicelist[i].volume.values[1]);
     }
-    
-    return 0;
+
 }
 
 	void
@@ -193,13 +188,8 @@ main(int argc, char *argv[])
 		destroy();
 		return 1;
 	}
-
-	if (get_sinks() == 1) {
-		printf("Failed to get sinks :(\n");
-		destroy();
-		return 1;
-	}
-
+	get_sinks();
+	interface();
 	destroy();
 	return 0;
 }
