@@ -1,9 +1,4 @@
-- [] pelajari pa_context, pa_mainloop, pa_operation
-- [] setup koneksi ke pulseaudio server
-- [] info sink (output audio)
-- [] interface pakai ncurses
-- [] implementasi fungsi ubah volume
-- [] handle event && update real time
-- [] error handling
-- [] testing debugging
-- [] mute
+- Cara konek ke server PulseAudio.
+- Cara ambil daftar sink (perangkat output).
+- Cara baca dan ubah volume sink.
+- Cara mute/unmute sink.
