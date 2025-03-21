@@ -12,13 +12,6 @@
 #include "ui.c"
 #include "data.h"
 
-static pa_context *context;
-static pa_mainloop *mainloop;
-static pa_mainloop_api *mainloop_api;
-static pa_operation *operation;
-static int ready = 0;
-static int sink_count = 0;
-
 pa_devicelist_t devicelist[10];
 
 static void
@@ -29,7 +22,6 @@ context_state_callback_status(pa_context *context, void *userdata)
     switch (pa_context_get_state(context)) {
     case PA_CONTEXT_READY:
         *pa_ready_status = 1;
-        printf("Pulseaudio connected :)\n");
         break;
     case PA_CONTEXT_FAILED:
 	printf("PA_CONTEXT_FAILED\n");
@@ -108,15 +100,6 @@ get_sinks()
 
     pa_operation_unref(operation);
     
-    for (int i = 0; i < sink_count; i++) {
-	    printf("Sinks found: %d\n", sink_count);
-
-	    printf("Sinks Name: %s\n", devicelist[i].name);
-	    printf("Sinks Index: %d\n", devicelist[i].index);
-	    printf("Sinks Volume[0]: %d\n", devicelist[i].volume.values[0]);
-	    printf("Sinks Volume[1]: %d\n", devicelist[i].volume.values[1]);
-    }
-
 }
 
 	void

@@ -12,4 +12,12 @@ typedef struct {
 
 extern pa_devicelist_t devicelist[10];
 
+static pa_context *context;
+static pa_mainloop *mainloop;
+static pa_mainloop_api *mainloop_api;
+static pa_operation *operation;
+
+static int ready = 0;
+static int sink_count = 0;
+
 #endif

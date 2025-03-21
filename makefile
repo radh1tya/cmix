@@ -1,5 +1,5 @@
 cc = cc
-cflags = -Wall -g
+cflags = -g
 ldflags = -lpulse -lncurses
 
 source = main.c
