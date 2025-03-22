@@ -17,7 +17,9 @@ static pa_mainloop *mainloop;
 static pa_mainloop_api *mainloop_api;
 static pa_operation *operation;
 
-static int ready = 0;
-static int sink_count = 0;
+pa_cvolume cvolume;
+
+int ready = 0;
+int sink_count = 0;
 
 #endif

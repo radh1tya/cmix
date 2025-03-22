@@ -14,6 +14,7 @@
 
 pa_devicelist_t devicelist[10];
 
+
 static void
 context_state_callback_status(pa_context *context, void *userdata)
 {
@@ -172,6 +173,8 @@ main(int argc, char *argv[])
 		return 1;
 	}
 	get_sinks();
+	pa_cvolume_init(&cvolume);
+
 	interface();
 	destroy();
 	return 0;
